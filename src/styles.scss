@@ -1,0 +1,80 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.slider {
+  position: relative;
+  width: 2048px;
+  height: 1024px;
+  background-color: darkgray;
+
+  &__before {
+    width: 1024px;
+    height: 1024px;
+    position: absolute;
+    z-index: 2;
+    background-image: url("/src/assets/images/befote.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  &__after {
+    width: 2048px;
+    height: 1024px;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  &__resize {
+    position: absolute;
+    width: 3px;
+    height: 100%;
+    right: 0;
+    top: 0;
+    background-color: red;
+    cursor: e-resize;
+
+    &::before {
+      content: '<';
+      position: absolute;
+      font-size: 30px;
+      font-weight: 900;
+      top: 50%;
+      color: aquamarine;
+      right: 5px;
+
+    }
+
+    &::after {
+      content: '>';
+      position: absolute;
+      font-size: 30px;
+      font-weight: 900;
+      top: 50%;
+      color: aquamarine;
+      left: 5px;
+    }
+  }
+
+
+}
+
+.container {
+  max-width: 2000px;
+  width: 100%;
+}

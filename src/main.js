@@ -1,24 +1,68 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import './styles.scss'
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+const getTemplate = (state) => {
+  return `
+        <div class="slider__before" style="width: ${state.width}px; background-image: url(${state.before})">
+           <div class="slider__resize"></div>
+        </div>
+        <div class="slider__after" style="background-image: url(${state.after})"></div>
+  `
+}
 
-setupCounter(document.querySelector('#counter'))
+class Slider {
+  constructor(selector, state) {
+    this.slider = document.getElementById(selector)
+    this.state = {
+      ...state,
+      width: state.width || 1024
+    }
+    this.render(this.state)
+    this.bindEvents()
+  }
+
+  selector = {
+    resize: '[data-js-resize]'
+  }
+
+  render(state) {
+    this.slider.innerHTML = getTemplate(state)
+  }
+
+  update(props) {
+    this.state = {
+      ...this.state,
+      ...props
+    }
+    this.render(this.state)
+  }
+
+  bindEvents() {
+    this.mouseDownHandler = this.mouseDownHandler.bind(this)
+    this.mouseUpHandler = this.mouseUpHandler.bind(this)
+    this.moveHandler = this.moveHandler.bind(this)
+    this.slider.addEventListener("mousedown", this.mouseDownHandler)
+    this.slider.addEventListener("mouseup", this.mouseUpHandler)
+  }
+
+  mouseDownHandler(event) {
+    if (event.target.classList.contains('slider__resize')) {
+      this.slider.addEventListener('mousemove', this.moveHandler)
+      this.currentClientX = event.clientX
+    }
+  }
+
+  mouseUpHandler(event) {
+    this.slider.removeEventListener('mousemove', this.moveHandler)
+  }
+
+  moveHandler(event) {
+    let newClientX = this.currentClientX - event.clientX
+    this.update({width: this.state.width - newClientX})
+    this.currentClientX = event.clientX
+  }
+}
+
+const slider = new Slider('slider', {
+  before: '/src/assets/images/before.jpg',
+  after : '/src/assets/images/after.jpg'
+})
