@@ -1,10 +1,17 @@
 {
-  "name": "BeforeAfter",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "beforeafter",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "private": true
+  "devDependencies": {
+    "vite": "npm:rolldown-vite@7.1.14"
+  },
+  "overrides": {
+    "vite": "npm:rolldown-vite@7.1.14"
+  }
 }
